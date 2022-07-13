@@ -19,3 +19,52 @@ def validateNumber(P): #takes value of the cell as an argument
     out = (P.isdigit() or P == "") and len(P) < 2 #checks if its a digit or empty and restricts to one digit
     return out #return the boolean expression
 
+reg = root.register(validateNumber) #register the function to the window
+
+def draw3x3Grid(row, columm, bgcolor): #takes those 3 as arguments
+    for i in range(3): #indicates the rows
+        for j in range(3): #indicates the columns
+           e = Entry(root, width=5, bg=bgcolor, justify="center", validate="key", validatecommand=(reg, "%p")) 
+           e.grid(row=row+i+1, column=column+j+1, sticky="nsew", padx=1, pady=1, ipady=5)
+           cells[(row+i+1, column+j+1)]
+
+def draw9x9Grid():
+    color = "#D0ffff"
+    for rowNo in range(1, 10, 3):
+        for colNo in range(0,9,3):
+            draw3x3Grid(rowNo, colNo, color)
+            if color == "#D0ffff":
+                color = "#ffffd0"
+            else:
+                color = "#D0ffff"
+
+def clearValues():
+    errLabel.configure(text="")
+    solvedLabel.configure(text="")
+    for row in range(2,11):
+        for col in range(1,10):
+            cell = cells[(row, col)]
+            cell.delete(0, "end")
+
+def getValues():
+    board = [] #declare empty list to store value of each cell in each row
+    errLabel.configure(text="")
+    solvedLabel.configure(text="")
+    for row in range(2, 11):
+        rows = []
+        for col in range(1,10):     
+            val = cells[{row, col}].get()
+            if val == "":
+                rows.append(0)
+            else:
+                rows.appemd(int(val))
+        board.append(rows)
+
+btn = Button(root, command=getValues, text="Solve", width=10)
+btn.grid(row+20, column=1, columnspan=5, pady=20)    
+
+btn = Button(root, command=getValues, text="Clear", width=10)
+btn.grid(row+20, column=5, columnspan=5, pady=20)  
+
+draw9x9Grid()
+root.mainloop()
