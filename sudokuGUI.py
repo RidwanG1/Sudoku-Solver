@@ -31,14 +31,14 @@ def draw3x3Grid(row, column, bgcolor): #takes those 3 as arguments
            cells[(row+i+1, column+j+1)] = e
 
 def draw9x9Grid():
-    color = "#D0ffff"
+    color = "#152238"
     for rowNo in range(1, 10, 3):
         for colNo in range(0,9,3):
             draw3x3Grid(rowNo, colNo, color)
-            if color == "#D0ffff":
-                color = "#ffffd0"
+            if color == "#152238":
+                color = "#253DA1"
             else:
-                color = "#D0ffff"
+                color = "#152238"
 
 def clearValues():
     errLabel.configure(text="")
