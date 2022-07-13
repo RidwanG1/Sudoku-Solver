@@ -1,4 +1,5 @@
 from tkinter import *
+from sudokuSolver import solver
 
 root = Tk()
 root.title("Sudoku Solver")
@@ -54,18 +55,32 @@ def getValues():
     for row in range(2, 11):
         rows = []
         for col in range(1,10):     
-            val = cells[{row, col}].get()
+            val = cells[(row, col)].get()
             if val == "":
                 rows.append(0)
             else:
-                rows.appemd(int(val))
+                rows.append(int(val))
         board.append(rows)
+    updateValues(board)
 
 btn = Button(root, command=getValues, text="Solve", width=10)
 btn.grid(row=20, column=1, columnspan=5, pady=20)    
 
-btn = Button(root, command=getValues, text="Clear", width=10)
+btn = Button(root, command=clearValues, text="Clear", width=10)
 btn.grid(row=20, column=5, columnspan=5, pady=20)  
 
+#function updates cells and displays solution
+def updateValues(s): #takes sudoku matrix as arguments
+    sol = solver(s) #calls solver function and pass the sudoku to it
+    if sol != "no":
+        for rows in range(2, 11):
+            for col in range(1,10):
+                cells[(rows, col)].delete(0, "end") #deletes existing values from cell
+                #insert method to insert value at 0 index. Subtracting 2 and 1 because the matrix is 0 indexed
+                cells[(rows, col)].insert(0, sol[rows-2][col-1]) 
+        solvedLabel.config(text="Sudoku solved!")
+    else:
+        errLabel.config(text="No solution exists for this sudoku")
+
 draw9x9Grid()
-root.mainloop()
+root.mainloop() 
